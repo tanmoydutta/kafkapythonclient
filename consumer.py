@@ -101,14 +101,23 @@ def main(args):
                 #                  str(msg.key())))
                 #print(msg.value())
                 try:
-                    print('Message consumed: topic={0}, partition={1}, offset={2}, key={3}, value={4}'.format(
-                        msg.topic(),
-                        msg.partition(),
-                        msg.offset(),
-                        msg.key().decode('utf-8'),
-                        msg.value().decode('utf-8')))
-                except AttributeError:
-                    print('Error')
+                    if(msg.key()):
+                        print('Message consumed: topic={0}, partition={1}, offset={2}, key={3}, value={4}'.format(
+                            msg.topic(),
+                            msg.partition(),
+                            msg.offset(),
+                            msg.key().decode('utf-8'),
+                            msg.value().decode('utf-8')))
+                    else:
+                        print('Message consumed: topic={0}, partition={1}, offset={2}, key={3}, value={4}'.format(
+                            msg.topic(),
+                            msg.partition(),
+                            msg.offset(),
+                            msg.key(),#.decode('utf-8'),
+                            msg.value().decode('utf-8')))
+                except AttributeError as e:
+                    #print('Error')
+                    print(e)
                 # Store the offset associated with msg to a local cache.
                 # Stored offsets are committed to Kafka by a background thread every 'auto.commit.interval.ms'.
                 # Explicitly storing offsets after processing gives at-least once semantics.
